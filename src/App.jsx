@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Signup from "./Components/SignUp";
 import SignIn from "./Components/SignIn";
+import Dashboard from "./Components/Dashboard";
 import { createBrowserRouter,RouterProvider } from "react-router-dom";
 
 
@@ -14,6 +15,10 @@ export default function App(){
     {
       path:"/SignIn",
       element:<SignIn/>
+    },
+    {
+      path:"/",
+      element:<Dashboard/>
     }
 
   ])

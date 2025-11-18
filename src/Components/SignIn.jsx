@@ -22,6 +22,7 @@ export default function SignIn() {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials:"include",
         body: JSON.stringify({
           username: body.username,
           password: body.password
@@ -29,10 +30,10 @@ export default function SignIn() {
       });
   
       const data = await res.json();
-      if(data.message!="Created Successfully"){
-        setError(data.message)
-      }else{
+      if(data.message=="Successfully Login"){
         setError("Success")
+      }else{
+        setError(data.message)
       }
       console.log(data);
     };

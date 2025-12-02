@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import API from '../api/axios';
 
 const NoteForm = ({ isOpen, onClose, onSubmit, initialData }) => {
     const [title, setTitle] = useState('');
@@ -19,6 +20,23 @@ const NoteForm = ({ isOpen, onClose, onSubmit, initialData }) => {
             setIsPinned(false);
         }
     }, [initialData, isOpen]);
+
+    const [isSummarizing, setIsSummarizing] = useState(false);
+
+    const handleSummarize = async () => {
+        if (!content) return;
+
+        setIsSummarizing(true);
+        try {
+            const { data } = await API.post('/ai/summarize', { title, content });
+            setContent(prev => `${prev}\n\n**Summary:**\n${data.summary}`);
+        } catch (error) {
+            console.error('Summarize failed:', error);
+            alert('Failed to generate summary');
+        } finally {
+            setIsSummarizing(false);
+        }
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -48,7 +66,26 @@ const NoteForm = ({ isOpen, onClose, onSubmit, initialData }) => {
                         />
                     </div>
                     <div className="form-group">
-                        <label>Content</label>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                            <label style={{ marginBottom: 0 }}>Content</label>
+                            <button
+                                type="button"
+                                onClick={handleSummarize}
+                                disabled={isSummarizing || !content}
+                                style={{
+                                    padding: '4px 8px',
+                                    fontSize: '0.8rem',
+                                    background: 'var(--primary-color)',
+                                    color: 'white',
+                                    border: 'none',
+                                    borderRadius: '4px',
+                                    cursor: isSummarizing ? 'wait' : 'pointer',
+                                    opacity: isSummarizing || !content ? 0.7 : 1
+                                }}
+                            >
+                                {isSummarizing ? '✨ Summarizing...' : '✨ AI Summarize'}
+                            </button>
+                        </div>
                         <textarea
                             value={content}
                             onChange={(e) => setContent(e.target.value)}

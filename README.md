@@ -26,13 +26,14 @@ The application connects to MongoDB to store all your data permanently. This inc
 - **Note Management**: You can create, read, update, and delete notes.
 - **Organization**: Features like search, filtering (for pinned notes), and sorting help you find what you need.
 - **Dark Mode**: A built-in toggle to switch the color theme.
+- **AI Summarization**: Instantly generate concise summaries of your notes using Google Gemini AI.
 - **Responsive**: The layout adjusts to work on different screen sizes.
 
 ## How to Run the Project
 
 1. **Setup the Server**:
    Navigate to the `server` directory. Run `npm install` to get the dependencies. Then run `npm run dev` to start the backend.
-   *Note: Make sure your `.env` file has your MongoDB connection string.*
+   *Note: Make sure your `.env` file has your MongoDB connection string and `GEMINI_API_KEY` for AI features.*
 
 2. **Setup the Client**:
    Navigate to the `client` directory. Run `npm install` to get the dependencies. Then run `npm run dev` to start the frontend.

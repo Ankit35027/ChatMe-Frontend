@@ -3,25 +3,24 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const connectDB = require('./config/db');
 
-// Load env vars
 dotenv.config();
 
-// Connect to database
 connectDB();
+
+const authRoutes = require('./routes/auth');
+const noteRoutes = require('./routes/notes');
+const aiRoutes = require('./routes/ai');
 
 const app = express();
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Routes
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/notes', require('./routes/notes'));
+app.use('/api/auth', authRoutes);
+app.use('/api/notes', noteRoutes);
+app.use('/api/ai', aiRoutes);
 
-// Serve frontend in production (optional, but good practice)
-// For now we just have a basic root route
 app.get('/', (req, res) => {
     res.send('Server is running');
 });
